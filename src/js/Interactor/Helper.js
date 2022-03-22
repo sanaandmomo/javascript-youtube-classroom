@@ -1,14 +1,14 @@
-import database from '../database/index.js';
+import storage from '../storage/index.js';
 import youtubeAPI from '../youtubeAPI/index.js';
 import { formatDate } from '../utils/index.js';
 import { REDIRECT_SERVER_HOST, DATABASE_VIDEO_KEY } from '../constants/index.js';
 import { _ } from '../utils/fx.js';
 
 const helper = {
-  findVideoById: (id, videos = database.load(DATABASE_VIDEO_KEY)) =>
+  findVideoById: (id, videos = storage.load(DATABASE_VIDEO_KEY)) =>
     _.find(({ videoId }) => videoId === id, videos),
 
-  findVideoIndexById: (id, videos = database.load(DATABASE_VIDEO_KEY)) =>
+  findVideoIndexById: (id, videos = storage.load(DATABASE_VIDEO_KEY)) =>
     videos.findIndex(({ videoId }) => videoId === id),
 
   convertVideoToItem: ({ id, snippet }) => ({
@@ -31,11 +31,11 @@ const helper = {
     return helper.fetchVideo();
   },
 
-  saveVideo: (video) => database.save(DATABASE_VIDEO_KEY, { ...video, checked: false }),
+  saveVideo: (video) => storage.save(DATABASE_VIDEO_KEY, { ...video, checked: false }),
 
-  loadVideo: () => database.load(DATABASE_VIDEO_KEY),
+  loadVideo: () => storage.load(DATABASE_VIDEO_KEY),
 
-  overiteVideos: (videos) => database.overwrite(DATABASE_VIDEO_KEY, videos),
+  overiteVideos: (videos) => storage.overwrite(DATABASE_VIDEO_KEY, videos),
 };
 
 export default helper;
