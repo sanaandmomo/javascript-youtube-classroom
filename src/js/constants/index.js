@@ -11,10 +11,9 @@ export const SELECTOR = {
   VIDEOS: '#videos',
   EMPTY_SCREEN: '#empty-screen',
   APP: '#app',
-  SEEN_BUTTON: '#seen-button',
+  SWITCH_BUTTONS: '#switch-buttons',
   SEEN_EMPTY_SCREEN: '#seen-empty-sceen',
   SEEN_VIDEOS: '#seen-videos',
-  UNSEEN_BUTTON: '#unseen-button',
   UNSEEN_EMPTY_SCREEN: '#unseen-empty-screen',
   UNSEEN_VIDEOS: '#unseen-videos',
 };

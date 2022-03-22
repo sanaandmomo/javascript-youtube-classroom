@@ -4,27 +4,19 @@ import { SELECTOR } from '../constants/index.js';
 export default class SwitchVideoView {
   #$app;
 
-  #$switchSeenButton;
-
-  #$switchUnseenButton;
+  #$switchButtons;
 
   constructor() {
     this.#$app = $(SELECTOR.APP);
-    this.#$switchSeenButton = $(SELECTOR.SEEN_BUTTON);
-    this.#$switchUnseenButton = $(SELECTOR.UNSEEN_BUTTON);
+    this.#$switchButtons = $(SELECTOR.SWITCH_BUTTONS);
   }
 
-  bindSwitchToUnseenScreen(handler) {
-    this.#$switchUnseenButton.addEventListener('click', () => {
-      handler();
-      this.#switchToScreen('unseen');
-    });
-  }
+  bindSwitchScreen(handler) {
+    this.#$switchButtons.addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) return;
 
-  bindSwitchToSeenScreen(handler) {
-    this.#$switchSeenButton.addEventListener('click', () => {
-      handler();
-      this.#switchToScreen('seen');
+      handler(e.target.dataset.tab);
+      this.#switchToScreen(e.target.dataset.tab);
     });
   }
 

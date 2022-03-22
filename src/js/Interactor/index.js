@@ -17,6 +17,17 @@ const switchVideoView = new SwitchVideoView();
 const unseenVideoListView = new UnseenVideoListView();
 const seenVideoListView = new SeenVideoListView();
 
+const screenRender = {
+  unseen: _.pipe(
+    _.filter(({ checked }) => !checked),
+    unseenVideoListView.renderScreenByVideos.bind(unseenVideoListView),
+  ),
+  seen: _.pipe(
+    _.filter(({ checked }) => checked),
+    seenVideoListView.renderScreenByVideos.bind(seenVideoListView),
+  ),
+};
+
 const handleKeywordInputSubmit = (keyword) => {
   try {
     validator.checkKeyword(keyword);
@@ -37,24 +48,14 @@ const handleSearchModalButtonClick = () => {
   videoView.refreshVideoScreen();
 };
 
-const handleSwitchUnseenButtonClick = _.pipe(
-  helper.loadVideo,
-  _.filter(({ checked }) => !checked),
-  unseenVideoListView.renderScreenByVideos.bind(unseenVideoListView),
-);
-
-const handleSwitchSeenButtonClick = _.pipe(
-  helper.loadVideo,
-  _.filter(({ checked }) => checked),
-  seenVideoListView.renderScreenByVideos.bind(seenVideoListView),
-);
+const handleSwitchButtonClick = (screenName) => _.go(helper.loadVideo(), screenRender[screenName]);
 
 const handleSaveVideoButtonClick = (video) => {
   try {
     validator.checkFullOfDatabase();
 
     helper.saveVideo(video);
-    handleSwitchUnseenButtonClick();
+    handleSwitchButtonClick('unseen');
   } catch ({ message }) {
     alert(message);
   }
@@ -65,7 +66,7 @@ const handleUnseenCheckButtonClick = (id) => {
 
   helper.findVideoById(id, videos).checked = true;
   helper.overwriteVideos(videos);
-  handleSwitchUnseenButtonClick();
+  handleSwitchButtonClick('unseen');
 };
 
 const handleVideoDeleteButtonClick = _.curry((render, id) => {
@@ -81,17 +82,16 @@ const runApp = () => {
   searchModalView.bindShowModal(handleSearchModalButtonClick);
   searchModalView.bindCloseModal();
   videoView.bindSaveVideo(handleSaveVideoButtonClick);
-  switchVideoView.bindSwitchToSeenScreen(handleSwitchSeenButtonClick);
-  switchVideoView.bindSwitchToUnseenScreen(handleSwitchUnseenButtonClick);
+  switchVideoView.bindSwitchScreen(handleSwitchButtonClick);
   unseenVideoListView.bindClickButtons(
     handleUnseenCheckButtonClick,
-    handleVideoDeleteButtonClick(handleSwitchUnseenButtonClick),
+    handleVideoDeleteButtonClick(() => handleSwitchButtonClick('unseen')),
   );
   seenVideoListView.bindClickButtons(
     _.noop,
-    handleVideoDeleteButtonClick(handleSwitchSeenButtonClick),
+    handleVideoDeleteButtonClick(() => handleSwitchButtonClick('seen')),
   );
-  handleSwitchUnseenButtonClick();
+  handleSwitchButtonClick('unseen');
 };
 
 export default runApp;

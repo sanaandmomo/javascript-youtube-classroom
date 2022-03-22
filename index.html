@@ -4,16 +4,16 @@
     <meta charset="UTF-8" />
     <title>나만의 유튜브 강의실</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="./src/css/index.css" />
-    <script defer src="bundle.js"></script></head>
+    <script defer src="bundle.js"></script>
+</head>
   <body>
     <main id="app" class="classroom-container unseen">
       <h1 class="classroom-container__title">👩🏻‍💻 나만의 유튜브 강의실 👨🏻‍💻</h1>
 
       <nav class="nav">
-        <div class="nav__button-wrap">
-          <button type="button" id="unseen-button" class="switch-button button nav__button" data-tab="unseen">👁️ 볼 영상</button>
-          <button type="button" id="seen-button" class="switch-button button nav__button" data-tab="seen">✅ 본 영상</button>
+        <div id="switch-buttons" class="nav__button-wrap">
+          <button type="button" class="switch-button button nav__button" data-tab="unseen">👁️ 볼 영상</button>
+          <button type="button" class="switch-button button nav__button" data-tab="seen">✅ 본 영상</button>
         </div>
 
         <div class="nav__button-wrap">
