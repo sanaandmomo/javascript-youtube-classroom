@@ -35,7 +35,7 @@ const helper = {
 
   loadVideo: () => storage.load(DATABASE_VIDEO_KEY),
 
-  overiteVideos: (videos) => storage.overwrite(DATABASE_VIDEO_KEY, videos),
+  overwriteVideos: (videos) => storage.overwrite(DATABASE_VIDEO_KEY, videos),
 };
 
 export default helper;

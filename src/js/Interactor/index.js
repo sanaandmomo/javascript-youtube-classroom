@@ -64,7 +64,7 @@ const handleUnseenCheckButtonClick = (id) => {
   const videos = helper.loadVideo();
 
   helper.findVideoById(id, videos).checked = true;
-  helper.overiteVideos(videos);
+  helper.overwriteVideos(videos);
   handleSwitchUnseenButtonClick();
 };
 
@@ -72,7 +72,7 @@ const handleVideoDeleteButtonClick = _.curry((render, id) => {
   const videos = helper.loadVideo();
 
   videos.splice(helper.findVideoIndexById(id), 1);
-  helper.overiteVideos(videos);
+  helper.overwriteVideos(videos);
   render();
 });
 
