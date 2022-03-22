@@ -1,6 +1,6 @@
-const Database = {
+const database = {
   save: (key, value) => {
-    localStorage.setItem(key, JSON.stringify([...Database.load(key), value]));
+    localStorage.setItem(key, JSON.stringify([...database.load(key), value]));
   },
 
   overwrite: (key, value) => {
@@ -12,4 +12,4 @@ const Database = {
   },
 };
 
-export default Database;
+export default database;

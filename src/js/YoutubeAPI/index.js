@@ -28,7 +28,7 @@ const makeURL = (host) => {
 
 const checkEndPage = () => PRIVATE_VARIABLE.nextPageToken === undefined;
 
-const YoutubeAPI = {
+const youtubeAPI = {
   getVideos(host) {
     if (checkEndPage()) return [];
 
@@ -51,4 +51,4 @@ const YoutubeAPI = {
   },
 };
 
-export default YoutubeAPI;
+export default youtubeAPI;

@@ -1,5 +1,5 @@
-import Validator from './Validator.js';
-import Helper from './Helper.js';
+import validator from './validator.js';
+import helper from './helper.js';
 
 import KeywordInputView from '../Views/KeywordInputView.js';
 import VideoView from '../Views/VideoView.js';
@@ -12,18 +12,18 @@ import { _ } from '../utils/fx.js';
 
 const keywordInputView = new KeywordInputView();
 const searchModalView = new SearchModalView();
-const videoView = new VideoView(Helper.fetchVideo);
+const videoView = new VideoView(helper.fetchVideo);
 const switchVideoView = new SwitchVideoView();
 const unseenVideoListView = new UnseenVideoListView();
 const seenVideoListView = new SeenVideoListView();
 
 const handleKeywordInputSubmit = (keyword) => {
   try {
-    Validator.checkKeyword(keyword);
+    validator.checkKeyword(keyword);
 
     videoView.refreshVideoScreen();
     videoView.onSkeleton();
-    _.go(keyword, Helper.searchVideo, (videos) => {
+    _.go(keyword, helper.searchVideo, (videos) => {
       videoView.renderScreenByVideos(videos);
       videoView.offSkeleton();
     });
@@ -38,22 +38,22 @@ const handleSearchModalButtonClick = () => {
 };
 
 const handleSwitchUnseenButtonClick = _.pipe(
-  Helper.loadVideo,
+  helper.loadVideo,
   _.filter(({ checked }) => !checked),
   unseenVideoListView.renderScreenByVideos.bind(unseenVideoListView),
 );
 
 const handleSwitchSeenButtonClick = _.pipe(
-  Helper.loadVideo,
+  helper.loadVideo,
   _.filter(({ checked }) => checked),
   seenVideoListView.renderScreenByVideos.bind(seenVideoListView),
 );
 
 const handleSaveVideoButtonClick = (video) => {
   try {
-    Validator.checkFullOfDatabase();
+    validator.checkFullOfDatabase();
 
-    Helper.saveVideo(video);
+    helper.saveVideo(video);
     handleSwitchUnseenButtonClick();
   } catch ({ message }) {
     alert(message);
@@ -61,18 +61,18 @@ const handleSaveVideoButtonClick = (video) => {
 };
 
 const handleUnseenCheckButtonClick = (id) => {
-  const videos = Helper.loadVideo();
+  const videos = helper.loadVideo();
 
-  Helper.findVideoById(id, videos).checked = true;
-  Helper.overiteVideos(videos);
+  helper.findVideoById(id, videos).checked = true;
+  helper.overiteVideos(videos);
   handleSwitchUnseenButtonClick();
 };
 
 const handleVideoDeleteButtonClick = _.curry((render, id) => {
-  const videos = Helper.loadVideo();
+  const videos = helper.loadVideo();
 
-  videos.splice(Helper.findVideoIndexById(id), 1);
-  Helper.overiteVideos(videos);
+  videos.splice(helper.findVideoIndexById(id), 1);
+  helper.overiteVideos(videos);
   render();
 });
 
